@@ -3,8 +3,12 @@ FastAPI Backend for CDC Diabetes Health Indicators Risk Prediction & Explainabil
 Modular architecture: routes delegate to schema.py, explainability.py, and model_pipeline.py.
 """
 import json
+import os
 from contextlib import asynccontextmanager
+from pathlib import Path
+
 import joblib
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -12,6 +16,8 @@ from data_loader import ARTIFACTS_DIR
 from explainability import run_patient_inference
 from schema import CLINICAL_PRESETS, PatientIndicators
 from train_and_eda import main as build_artifacts
+
+load_dotenv(Path(__file__).with_name(".env"))
 
 STATE: dict = {}
 
@@ -93,3 +99,9 @@ def predict_diabetes_risk(indicators: PatientIndicators):
         return run_patient_inference(indicators, STATE["bundle"], STATE["metadata"])
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="127.0.0.1", port=int(os.getenv("PORT", "8000")))

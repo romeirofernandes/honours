@@ -95,8 +95,8 @@ python train_and_eda.py
 # Run assert-based verification suite
 python test_backend.py
 
-# Start FastAPI server on http://127.0.0.1:8000
-python -m uvicorn main:app --host 127.0.0.1 --port 8000
+# Start FastAPI server on http://127.0.0.1:8000 (override with PORT in backend/.env)
+python main.py
 ```
 
 ### 2. Frontend Setup (React + Vite + Tailwind CSS)

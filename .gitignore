@@ -24,6 +24,11 @@ dist-ssr/
 frontend/dist-ssr/
 *.local
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
 # Logs
 logs/
 *.log
