@@ -39,6 +39,10 @@ const TABS = [
   { id: 'how', label: 'How it works', short: 'How' },
 ];
 
+// Production builds call the deployed API; local dev keeps using the Vite proxy.
+const API_BASE = import.meta.env.VITE_API_BASE_URL
+  || (import.meta.env.PROD ? 'https://honours-mlmd.onrender.com' : '');
+
 async function getJson(url, signal) {
   const response = await fetch(url, { signal });
   if (!response.ok) throw new Error(`${url} returned ${response.status}`);
@@ -79,7 +83,7 @@ export default function App() {
     const controller = new AbortController();
     setLoadError(false);
 
-    getJson('/api/metadata', controller.signal)
+    getJson(`${API_BASE}/api/metadata`, controller.signal)
       .then((data) => {
         if (!controller.signal.aborted) setMetadata(data);
       })
@@ -98,7 +102,7 @@ export default function App() {
 
     const timer = window.setTimeout(async () => {
       try {
-        const response = await fetch('/api/predict', {
+        const response = await fetch(`${API_BASE}/api/predict`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(indicators),
