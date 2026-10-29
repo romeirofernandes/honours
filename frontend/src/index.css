@@ -1,0 +1,707 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Design tokens. One neutral ramp (warm bone), one accent ramp (forest/mint),
+   and only the status ramps the interface actually renders.
+   --------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    color-scheme: light;
+
+    --canvas: 0.974 0.007 95;
+    --surface: 1 0 0;
+    --sunken: 0.951 0.009 95;
+
+    --ink: 0.235 0.022 156;
+    --soft: 0.365 0.02 156;
+    --muted: 0.5 0.016 150;
+
+    --line: 0.905 0.01 120;
+    --line-strong: 0.64 0.016 140;
+
+    /* Blueprint grid drawn behind the whole app. */
+    --grid-line: 0.86 0.012 95;
+
+    --accent: 0.46 0.095 158;
+    --accent-strong: 0.39 0.09 158;
+    --accent-text: 0.39 0.09 158;
+    --accent-soft: 0.949 0.03 158;
+    --accent-ink: 1 0 0;
+
+    --risk: 0.545 0.16 32;
+    --risk-text: 0.45 0.15 30;
+    --risk-soft: 0.955 0.032 32;
+
+    --warn: 0.66 0.12 72;
+    --warn-text: 0.48 0.11 65;
+    --warn-soft: 0.962 0.04 80;
+
+    --good: 0.52 0.1 156;
+    --good-text: 0.42 0.09 156;
+    --good-soft: 0.949 0.03 156;
+
+    --shadow: 0.2 0.02 156;
+
+    --radius-xl: 12px;
+
+    --chart-1: oklch(var(--accent));
+    --chart-2: oklch(var(--risk));
+    --chart-3: oklch(var(--warn));
+    --chart-4: oklch(var(--good));
+    --chart-5: oklch(var(--muted));
+    --chart-background: oklch(var(--surface));
+    --chart-foreground: oklch(var(--ink));
+    --chart-foreground-muted: oklch(var(--muted));
+    --chart-line-primary: oklch(var(--accent));
+    --chart-line-secondary: oklch(var(--risk));
+    --chart-crosshair: oklch(var(--accent));
+    --chart-grid: oklch(var(--line));
+    --chart-brush-border: var(--chart-grid);
+    --chart-tooltip-background: oklch(var(--surface));
+    --chart-tooltip-foreground: oklch(var(--ink));
+    --chart-tooltip-muted: oklch(var(--muted));
+    --chart-marker-background: oklch(var(--surface));
+    --chart-marker-border: oklch(var(--line-strong));
+    --chart-marker-foreground: oklch(var(--ink));
+    --chart-label: oklch(var(--muted));
+    --chart-scale-01: oklch(var(--sunken));
+    --chart-scale-02: oklch(0.88 0.025 158);
+    --chart-scale-03: oklch(0.76 0.05 158);
+    --chart-scale-04: oklch(0.62 0.07 158);
+    --chart-scale-05: oklch(0.48 0.09 158);
+    --chart-scale-pattern-color: oklch(var(--line));
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    /* Neutral black, not charcoal green. Surfaces step up in lightness only. */
+    --canvas: 0.125 0 0;
+    --surface: 0.17 0 0;
+    --sunken: 0.215 0 0;
+
+    --ink: 0.96 0 0;
+    --soft: 0.82 0 0;
+    --muted: 0.64 0 0;
+
+    --line: 0.275 0 0;
+    --line-strong: 0.48 0 0;
+
+    --grid-line: 0.24 0 0;
+
+    /* Deep forest green with lighter emerald tints for active states. */
+    --accent: 0.378 0.073 168.9;
+    --accent-strong: 0.508 0.105 165.6;
+    --accent-text: 0.845 0.13 165;
+    --accent-soft: 0.291 0.046 169.8;
+    --accent-ink: 0.979 0.021 166.1;
+
+    --risk: 0.72 0.14 35;
+    --risk-text: 0.84 0.1 38;
+    --risk-soft: 0.235 0.04 35;
+
+    --warn: 0.81 0.1 80;
+    --warn-text: 0.87 0.09 82;
+    --warn-soft: 0.245 0.035 80;
+
+    --good: 0.596 0.127 163.2;
+    --good-text: 0.905 0.089 164.2;
+    --good-soft: 0.291 0.046 169.8;
+
+    --shadow: 0 0 0;
+
+    --chart-1: oklch(var(--accent));
+    --chart-2: oklch(var(--risk));
+    --chart-3: oklch(var(--warn));
+    --chart-4: oklch(var(--good));
+    --chart-5: oklch(var(--muted));
+
+    --chart-background: oklch(var(--surface));
+    --chart-foreground: oklch(var(--ink));
+    --chart-foreground-muted: oklch(var(--muted));
+    --chart-line-primary: oklch(var(--accent));
+    --chart-line-secondary: oklch(var(--risk));
+    --chart-crosshair: oklch(var(--accent));
+    --chart-grid: oklch(var(--line));
+    --chart-brush-border: var(--chart-grid);
+    --chart-tooltip-background: oklch(var(--surface));
+    --chart-tooltip-foreground: oklch(var(--ink));
+    --chart-tooltip-muted: oklch(var(--muted));
+    --chart-marker-background: oklch(var(--surface));
+    --chart-marker-border: oklch(var(--line-strong));
+    --chart-marker-foreground: oklch(var(--ink));
+    --chart-label: oklch(var(--muted));
+    --chart-scale-01: oklch(var(--sunken));
+    --chart-scale-02: oklch(0.265 0.023 167.8);
+    --chart-scale-03: oklch(var(--accent));
+    --chart-scale-04: oklch(var(--accent-strong));
+    --chart-scale-05: oklch(var(--good));
+    --chart-scale-pattern-color: oklch(var(--line));
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+    scrollbar-width: thin;
+    scrollbar-color: oklch(var(--muted) / 0.34) transparent;
+  }
+
+  /* A 5px thumb that reads as a faint edge, not a UI control. The track stays
+     transparent so the scrollbar blends into both the canvas and cards. */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: oklch(var(--muted) / 0.34);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(var(--muted) / 0.58);
+  }
+
+  body {
+    @apply bg-canvas font-sans text-ink antialiased;
+    font-synthesis-weight: none;
+  }
+
+  ::selection {
+    background-color: oklch(var(--accent));
+    color: oklch(var(--accent-ink));
+  }
+
+  :focus-visible {
+    outline: 2px solid oklch(var(--accent));
+    outline-offset: 2px;
+  }
+
+  .dark :focus-visible {
+    outline-color: oklch(var(--accent-text));
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Native range control, filled to the current value. */
+  input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 30px;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  input[type='range']::-webkit-slider-runnable-track {
+    height: 10px;
+    border-radius: 999px;
+    background: linear-gradient(
+      to right,
+      oklch(var(--accent)) 0%,
+      oklch(var(--accent)) var(--pct, 0%),
+      oklch(var(--sunken)) var(--pct, 0%),
+      oklch(var(--sunken)) 100%
+    );
+    box-shadow: inset 0 0 0 1px oklch(var(--line-strong) / 0.55);
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -8px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: oklch(var(--surface));
+    border: 3px solid oklch(var(--accent));
+    box-shadow: 0 1px 3px oklch(var(--shadow) / 0.25);
+    transition: scale 150ms ease-out, border-color 150ms ease-out;
+  }
+
+  input[type='range']:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid oklch(var(--accent));
+    outline-offset: 2px;
+  }
+
+  input[type='range']:enabled:active::-webkit-slider-thumb {
+    scale: 0.96;
+  }
+
+  input[type='range']::-moz-range-track {
+    height: 10px;
+    border-radius: 999px;
+    background: oklch(var(--sunken));
+    box-shadow: inset 0 0 0 1px oklch(var(--line-strong) / 0.55);
+  }
+
+  input[type='range']::-moz-range-progress {
+    height: 8px;
+    border-radius: 999px;
+    background: oklch(var(--accent));
+  }
+
+  input[type='range']::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: oklch(var(--surface));
+    border: 3px solid oklch(var(--accent));
+    box-shadow: 0 1px 3px oklch(var(--shadow) / 0.25);
+  }
+
+  summary {
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+@layer components {
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-accent-ink;
+  }
+
+  .icon-tile {
+    @apply flex shrink-0 items-center justify-center bg-accent-soft text-accent-text;
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-surface;
+  }
+
+  .result-card {
+    --rc-pad: 1.25rem;
+  }
+
+  /* A grid of fields that becomes two columns once the card holding it is
+     wide enough. The card is the container, so the break follows the card,
+     not the screen. */
+  .field-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .checkup-fields {
+    display: grid;
+    flex: 1;
+    align-content: space-evenly;
+  }
+
+  .checkup-fields--start {
+    align-content: start;
+  }
+
+  .checkup-fields--habits {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-height: 861px) {
+    .checkup-section--body {
+      --cu-card-pad: 1rem;
+      --cu-stack-gap: 0.75rem;
+    }
+
+    .checkup-section--body .checkup-section-note {
+      display: none;
+    }
+
+    .checkup-section--body .field-grid--stacked {
+      gap: 0.75rem;
+    }
+  }
+
+  @media (min-height: 741px) {
+    .checkup-section--you {
+      --cu-card-pad: 1rem;
+      --cu-stack-gap: 0.625rem;
+    }
+
+    .checkup-section--you .checkup-section-note,
+    .checkup-section--you .age-hint {
+      display: none;
+    }
+
+    .checkup-section--you .choice-cards__options > label {
+      min-height: 44px;
+    }
+  }
+
+  /* The section card is the query container. `container-type: inline-size`
+     needs a definite width, which the card has from the grid track. */
+  .card-query {
+    container-type: inline-size;
+    container-name: card;
+  }
+
+  /* Each cell is its own container, so a field inside a narrow cell adapts
+     to that cell rather than to the card or the screen. */
+  .field-cell {
+    container-type: inline-size;
+    container-name: cell;
+    min-width: 0;
+  }
+
+  @container card (min-width: 480px) {
+    .field-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem 1rem;
+    }
+
+    .field-grid--wide {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .field-grid--stacked {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--cu-field-gap, 1.25rem);
+  }
+
+  .field-grid--fill {
+    min-height: 100%;
+    align-content: space-between;
+  }
+
+  .field-grid--spread {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 1.25rem;
+    justify-content: space-between;
+    padding-block: 1rem;
+  }
+
+  /* A short pair of related yes/no rows. Two narrow columns fit where a
+     full-width row would cost twice the height, which is what keeps an
+     opened disclosure inside the card on a phone. */
+  .field-grid--pairs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 0.75rem;
+  }
+
+  @container card (max-width: 300px) {
+    .field-grid--pairs {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* A field that sits beside its own controls. The row is a grid so the
+     label never pushes the yes/no pair off the edge, whatever the string
+     length. Three layouts, chosen by how wide the cell is:
+       narrow  - the question stacks above the yes/no pair
+       medium  - the pair sits beside the question, the hint wraps under
+       wide    - the pair sits beside the question and the hint
+  */
+  .field-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      'icon text'
+      'controls controls';
+    align-items: center;
+    column-gap: 0.6rem;
+    row-gap: 0.4rem;
+  }
+
+  .field-row__icon {
+    grid-area: icon;
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    background: oklch(var(--sunken));
+    color: oklch(var(--soft));
+    align-self: start;
+    margin-top: 0.1rem;
+  }
+
+  .field-row__text {
+    grid-area: text;
+    min-width: 0;
+  }
+
+  .field-row__label {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: oklch(var(--ink));
+  }
+
+  .field-row__hint {
+    margin-top: 0.125rem;
+    font-size: 13px;
+    line-height: 1.35;
+    color: oklch(var(--muted));
+  }
+
+  .field-row__controls {
+    grid-area: controls;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.625rem;
+  }
+
+  /* Medium: the yes/no pair moves up beside the question and the hint
+     wraps underneath. The pair never overlaps the text. */
+  @container cell (min-width: 300px) {
+    .field-row {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-areas:
+        'icon label controls'
+        'icon hint  hint';
+      column-gap: 0.6rem;
+      row-gap: 0.1rem;
+      align-items: start;
+    }
+
+    .field-row__icon {
+      grid-row: 1 / span 2;
+      align-self: start;
+      margin-top: 0.05rem;
+    }
+
+    .field-row__text {
+      display: contents;
+    }
+
+    .field-row__label {
+      grid-area: label;
+      align-self: end;
+    }
+
+    .field-row__hint {
+      grid-area: hint;
+      align-self: start;
+      margin-top: 0;
+    }
+
+    .field-row__controls {
+      grid-area: controls;
+      width: 7.75rem;
+      align-self: center;
+    }
+  }
+
+  /* Wide: the hint sits under the question and the pair is centred. */
+  @container cell (min-width: 400px) {
+    .field-row {
+      grid-template-areas: 'icon text controls';
+      row-gap: 0;
+      align-items: center;
+    }
+
+    .field-row__text {
+      display: block;
+      grid-area: text;
+    }
+
+    .field-row__icon {
+      grid-row: auto;
+      align-self: center;
+      margin-top: 0;
+    }
+
+    .field-row__label {
+      grid-area: auto;
+    }
+
+    .field-row__hint {
+      grid-area: auto;
+    }
+  }
+
+  .press {
+    @apply transition-[scale,background-color,border-color,color,box-shadow] duration-150 ease-out enabled:active:scale-[0.96] disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  /* ----------------------------------------------------------------------
+     Density driven by viewport height, not by device.
+     ----------------------------------------------------------------------
+     The check-up has to fit on one screen without scrolling, so when the
+     window gets short the whole rhythm tightens: smaller hero, smaller
+     card padding, tighter gaps. Width is handled separately by container
+     queries; height is handled here because no element can query the
+     viewport height on its own.
+     ---------------------------------------------------------------------- */
+  .checkup {
+    --cu-gap: 0.75rem;
+    --cu-card-pad: 1.25rem;
+    --cu-hero-size: 28px;
+    --cu-hero-gap: 0.375rem;
+    --cu-stack-gap: 1.125rem;
+    --cu-field-gap: 1.25rem;
+    --cu-tab-pad: 0.375rem;
+  }
+
+  /* A narrow screen has little room, so the rhythm tightens there too, and
+     the two lines that only frame the questions step aside before any
+     question does. */
+  @media (max-width: 640px) {
+    .checkup {
+      --cu-gap: 0.5rem;
+      --cu-card-pad: 0.875rem;
+      --cu-hero-size: 23px;
+      --cu-hero-gap: 0.1875rem;
+      --cu-stack-gap: 0.875rem;
+      --cu-field-gap: 1rem;
+      --cu-tab-pad: 0.25rem;
+    }
+
+    .checkup-hero-note,
+    .checkup-section-note {
+      display: none;
+    }
+  }
+
+  @media (max-height: 860px) {
+    .checkup {
+      --cu-gap: 0.5rem;
+      --cu-card-pad: 1rem;
+      --cu-hero-size: 25px;
+      --cu-hero-gap: 0.25rem;
+      --cu-stack-gap: 0.75rem;
+      --cu-field-gap: 0.875rem;
+      --cu-tab-pad: 0.3125rem;
+    }
+  }
+
+  @media (max-height: 740px) {
+    .checkup {
+      --cu-gap: 0.375rem;
+      --cu-card-pad: 0.875rem;
+      --cu-hero-size: 22px;
+      --cu-hero-gap: 0.125rem;
+      --cu-stack-gap: 0.75rem;
+      --cu-field-gap: 0.75rem;
+      --cu-tab-pad: 0.25rem;
+    }
+  }
+
+  /* A short window also trims the app chrome so the check-up keeps its room. */
+  @media (max-height: 800px) {
+    .app-header {
+      padding-top: 0.5rem;
+    }
+
+    .app-footer {
+      padding-top: 0.375rem;
+      padding-bottom: 0.375rem;
+    }
+  }
+
+  /* A very short window gives up the subtitle and the hero paragraph
+     first, because the questions matter more than the framing. */
+  @media (max-height: 700px) {
+    .checkup {
+      --cu-gap: 0.375rem;
+      --cu-card-pad: 0.75rem;
+      --cu-hero-size: 21px;
+      --cu-hero-gap: 0.125rem;
+      --cu-stack-gap: 0.6875rem;
+      --cu-field-gap: 0.6875rem;
+      --cu-tab-pad: 0.25rem;
+    }
+
+    .checkup-hero-note {
+      display: none;
+    }
+
+    .checkup-section-note {
+      display: none;
+    }
+  }
+
+  /* The 320px floor is the tightest case the project supports. */
+  @media (max-width: 360px) {
+    .checkup {
+      --cu-gap: 0.375rem;
+      --cu-card-pad: 0.625rem;
+      --cu-hero-size: 20px;
+      --cu-stack-gap: 0.625rem;
+      --cu-field-gap: 0.625rem;
+    }
+  }
+
+  /* The estimate card tightens on a short window too: the number shrinks a
+     step and the framing sentence goes, but the number, the tier and the
+     projection always stay. */
+  @media (max-height: 760px) {
+    .result-card {
+      --rc-number: 38px;
+      --rc-pad: 0.875rem;
+    }
+
+    .result-card__sentence {
+      display: none;
+    }
+  }
+
+  @media (max-height: 640px) {
+    .result-card {
+      --rc-number: 32px;
+      --rc-pad: 0.75rem;
+    }
+  }
+
+  .squiggle-link {
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    text-decoration-color: oklch(var(--accent) / 0.6);
+  }
+
+  .squiggle-link:hover {
+    text-decoration-color: oklch(var(--accent));
+  }
+}
+
+/* Theme swap: let the circular reveal own the frame, not the default crossfade. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+  will-change: clip-path, filter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

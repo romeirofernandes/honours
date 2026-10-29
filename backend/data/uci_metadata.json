@@ -1,0 +1,8 @@
+{
+  "uci_id": 891,
+  "name": "CDC Diabetes Health Indicators",
+  "abstract": "The Diabetes Health Indicators Dataset contains healthcare statistics and lifestyle survey information about 253,680 adults along with their diagnosis of diabetes or prediabetes.",
+  "num_instances": 253680,
+  "num_features": 21,
+  "repository_url": "https://archive.ics.uci.edu/dataset/891/cdc+diabetes+health+indicators"
+}
